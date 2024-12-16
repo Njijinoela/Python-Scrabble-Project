@@ -69,22 +69,22 @@ class Computer:
         """
         self.score += len(word)
 
-# Example usage
-dictionary = {"apple", "pear", "grape", "orange", "peach"}
-board = [[" " for _ in range(10)] for _ in range(10)]
-computer = Computer(dictionary, board)
+# # Example usage
+# dictionary = {"apple", "pear", "grape", "orange", "peach"}
+# board = [[" " for _ in range(15)] for _ in range(15)]
+# computer = Computer(dictionary, board)
 
-# Simulating a turn
-last_word = "apple"
-last_word_position = (4, 4, 'horizontal')  # Example: "apple" is placed starting at (4, 4) horizontally
+# # Simulating a turn
+# last_word = "apple"
+# last_word_position = (4, 4, 'horizontal')  # Example: "apple" is placed starting at (4, 4) horizontally
 
-word = computer.select_valid_word(last_word)
-if word:
-    success = computer.place_word_on_board(word, last_word_position)
-    if success:
-        computer.update_score(word)
-        print(f"Computer placed '{word}' on the board. Current score: {computer.score}")
-    else:
-        print("Failed to place the word on the board.")
-else:
-    print("No valid word found.")
+# word = computer.select_valid_word(last_word)
+# if word:
+#     success = computer.place_word_on_board(word, last_word_position)
+#     if success:
+#         computer.update_score(word)
+#         print(f"Computer placed '{word}' on the board. Current score: {computer.score}")
+#     else:
+#         print("Failed to place the word on the board.")
+# else:
+#     print("No valid word found.")
