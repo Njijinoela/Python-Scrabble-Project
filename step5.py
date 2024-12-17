@@ -1,4 +1,4 @@
-class Computer:
+class Computer():
     def __init__(self, dictionary, board, score=0):
         """
         Initialize the Computer player.
