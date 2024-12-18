@@ -1,10 +1,52 @@
 class Dictionary:
-    class WordBoard:
-     def __init__(self, rows, cols):
-        # Initialize the board with empty cells
+    def __init__(self, file_path):
+        """
+        Initialize the dictionary by loading words from a file.
+        Args:
+            file_path (str): Path to the dictionary file.
+        """
+        self.words = self.load_dictionary(file_path)
+
+    def load_dictionary(self, file_path):
+        """
+        Load words from a dictionary file into a set for quick lookup.
+        Args:
+            file_path (str): Path to the dictionary file.
+
+        Returns:
+            set: A set of valid words from the file.
+        """
+        try:
+            with open(file_path, 'r') as file:
+                return {line.strip().upper() for line in file}
+        except FileNotFoundError:
+            raise FileNotFoundError(f"The dictionary file '{file_path}' was not found.")
+
+    def is_valid_word(self, word):
+        """
+        Check if a word is valid according to the dictionary.
+        Args:
+            word (str): The word to validate.
+
+        Returns:
+            bool: True if the word exists in the dictionary, False otherwise.
+        """
+        return word.upper() in self.words
+
+
+class Board:
+    def __init__(self, rows, cols, dictionary):
+        """
+        Initialize the game board.
+        Args:
+            rows (int): Number of rows on the board.
+            cols (int): Number of columns on the board.
+            dictionary (Dictionary): An instance of the Dictionary class.
+        """
         self.board = [[' ' for _ in range(cols)] for _ in range(rows)]
         self.rows = rows
         self.cols = cols
+        self.dictionary = dictionary
 
     def can_place_word(self, word, start_row, start_col, direction):
         """
@@ -18,8 +60,8 @@ class Dictionary:
         Returns:
             bool: True if the word can be placed, False otherwise.
         """
-        if direction not in ('H', 'V'):
-            raise ValueError("Direction must be 'H' (horizontal) or 'V' (vertical).")
+        if not self.dictionary.is_valid_word(word):
+            raise ValueError(f"The word '{word}' is not valid according to the dictionary.")
 
         word_length = len(word)
         if direction == 'H':
@@ -36,6 +78,8 @@ class Dictionary:
                 cell = self.board[start_row + i][start_col]
                 if cell != ' ' and cell != word[i]:  # Overlap rules
                     return False
+        else:
+            raise ValueError("Direction must be 'H' (horizontal) or 'V' (vertical).")
 
         return True
 
@@ -52,7 +96,7 @@ class Dictionary:
             ValueError: If the word cannot be placed.
         """
         if not self.can_place_word(word, start_row, start_col, direction):
-            raise ValueError("Word cannot be placed at the given position.")
+            raise ValueError(f"Word '{word}' cannot be placed at the given position.")
 
         if direction == 'H':
             for i in range(len(word)):
@@ -65,5 +109,6 @@ class Dictionary:
         """Print the current state of the board."""
         for row in self.board:
             print(' '.join(row))
+
 
 
